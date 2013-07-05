@@ -8,4 +8,20 @@ class String_TokenizerTest extends PHPUnit_Framework_TestCase {
 		
 	}
 
+	public function testConstruct() {
+
+	}
+
+	public function testTokenize() {
+
+	}
+
+	public function testFetchMatchingToken() {
+
+	}
+
+	public function testFetchTokens() {
+
+	}
+
 }
