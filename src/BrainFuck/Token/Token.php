@@ -165,6 +165,9 @@ class Jump_Backward extends Token {
 class Output_Value_At_Pointer extends Token {
 	static $identifier = array('.');
 
+	public function runToken(&$tape, &$ptr, &$tokens, &$tokenPointer) {
+		echo chr($tape[$ptr]);
+	}
 }
 
 /**
