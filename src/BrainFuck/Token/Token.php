@@ -218,7 +218,7 @@ class Accept_Input extends Token {
 			$stream = STDIN;
 
 		while(true) {
-			$line = trim(stream_get_line($stream, 1024, PHP_EOL));
+			$line = trim(stream_get_line($stream, 1, PHP_EOL));
 
 			if($line) {
 				$tape[$ptr] = ord($line);
