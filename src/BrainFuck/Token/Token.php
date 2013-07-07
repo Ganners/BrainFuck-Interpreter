@@ -65,8 +65,8 @@ abstract class Token {
 	 * 
 	 * @throws BrainFuck_Exception if out of bounds
 	 */
-	public function tapeBoundsCheck(&$tape, &$ptr) {
-		if($ptr < 0 || $ptr > count($tape))
+	public function tapeBoundsCheck(&$ptr, $tapeLength = 30000) {
+		if($ptr < 0 || $ptr > $tapeLength)
 			throw new BrainFuck_Exception("Pointer is out of bounds");
 	}
 
@@ -80,7 +80,7 @@ class Increment_Pointer extends Token {
 
 	public function runToken(&$tape, &$ptr, &$tokens, &$tokenPointer) {
 
-		$this->tapeBoundsCheck($tape, $ptr);
+		$this->tapeBoundsCheck($ptr);
 
 		++$ptr;
 	}
@@ -94,7 +94,7 @@ class Decrement_Pointer extends Token {
 
 	public function runToken(&$tape, &$ptr, &$tokens, &$tokenPointer) {
 
-		$this->tapeBoundsCheck($tape, $ptr);
+		$this->tapeBoundsCheck($ptr);
 
 		--$ptr;
 	}
@@ -108,7 +108,7 @@ class Increment_Byte_Pointed_To extends Token {
 
 	public function runToken(&$tape, &$ptr, &$tokens, &$tokenPointer) {
 
-		$this->tapeBoundsCheck($tape, $ptr);
+		$this->tapeBoundsCheck($ptr);
 
 		++$tape[$ptr];
 	}
@@ -122,7 +122,7 @@ class Decrement_Byte_Pointed_To extends Token {
 
 	public function runToken(&$tape, &$ptr, &$tokens, &$tokenPointer) {
 
-		$this->tapeBoundsCheck($tape, $ptr);
+		$this->tapeBoundsCheck($ptr);
 
 		--$tape[$ptr];
 	}
@@ -136,7 +136,7 @@ class Jump_Forward extends Token {
 
 	public function runToken(&$tape, &$ptr, &$tokens, &$tokenPointer) {
 
-		$this->tapeBoundsCheck($tape, $ptr);
+		$this->tapeBoundsCheck($ptr);
 
 		if( $tape[$ptr] === 0 ) {
 
@@ -167,7 +167,7 @@ class Jump_Backward extends Token {
 
 	public function runToken(&$tape, &$ptr, &$tokens, &$tokenPointer) {
 
-		$this->tapeBoundsCheck($tape, $ptr);
+		$this->tapeBoundsCheck($ptr);
 
 		if( $tape[$ptr] !== 0 ) {
 
@@ -198,7 +198,7 @@ class Output_Value_At_Pointer extends Token {
 
 	public function runToken(&$tape, &$ptr, &$tokens, &$tokenPointer) {
 
-		$this->tapeBoundsCheck($tape, $ptr);
+		$this->tapeBoundsCheck($ptr);
 
 		echo chr($tape[$ptr]);
 	}
@@ -212,7 +212,7 @@ class Accept_Input extends Token {
 
 	public function runToken(&$tape, &$ptr, &$tokens, &$tokenPointer, $stream = NULL) {
 
-		$this->tapeBoundsCheck($tape, $ptr);
+		$this->tapeBoundsCheck($ptr);
 
 		if(!$stream)
 			$stream = STDIN;
