@@ -31,7 +31,7 @@ class TokenTest extends PHPUnit_Framework_TestCase {
              ->method('tapeBoundsCheck')
              ->will($this->throwException(new \Exception));
 
-        $stub->tapeBoundsCheck($tape, $ptr);
+        $stub->tapeBoundsCheck($ptr, 30000);
 
 	}
 
