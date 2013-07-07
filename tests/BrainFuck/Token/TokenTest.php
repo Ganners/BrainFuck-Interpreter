@@ -18,6 +18,23 @@ class TokenTest extends PHPUnit_Framework_TestCase {
 
 	}
 
+    /**
+     * @expectedException BrainFuck\BrainFuck_Exception
+     */
+	public function testToken_tapeBoundsCheck() {
+
+		$tape   = $this->tape;
+		$ptr    = -1;
+
+		$stub = $this->getMockForAbstractClass('BrainFuck\Token\Token', array(0,0));
+        $stub->expects($this->any())
+             ->method('tapeBoundsCheck')
+             ->will($this->throwException(new \Exception));
+
+        $stub->tapeBoundsCheck($tape, $ptr);
+
+	}
+
 	public function testIncrement_PointerRunToken() {
 
 		$tape   = $this->tape;
