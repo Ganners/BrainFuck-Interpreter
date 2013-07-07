@@ -75,6 +75,9 @@ class Increment_Pointer extends Token {
 class Decrement_Pointer extends Token {
 	static $identifier = array('<');
 
+	public function runToken(&$tape, &$ptr, &$tokens, &$tokenPointer) {
+		--$ptr;
+	}
 }
 
 /**
