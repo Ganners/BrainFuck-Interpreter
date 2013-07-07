@@ -14,6 +14,7 @@ namespace BrainFuck;
 
 use BrainFuck\String_Tokenizer;
 use BrainFuck\Compiler;
+use BrainFuck\BrainFuck_Exception;
 
 class BrainFuck {
 
@@ -30,6 +31,17 @@ class BrainFuck {
 	 */
 	public function __construct($input, $inputFile) {
 
+		if($inputFile === TRUE) {
+			//If it's a file, we read it into the codeInput
+			$this->_codeInput = $this->_readFile($input);
+		} else if ($inputFile === FALSE) {
+			//If it's not a file, it's direct input
+			$this->_codeInput = $input;
+		} else {
+			//If it's neither TRUE nor FALSE
+			throw new BrainFuck_Exception('inputFile must be either TRUE or FALSE');
+		}
+
 	}
 
 	/**
@@ -38,7 +50,8 @@ class BrainFuck {
 	 * @return bool
 	 */
 	public function execute() {
-
+		$this->_compileTokens(
+			$this->_tokenizeInput( $this->_codeInput ) );
 	}
 
 	/**
@@ -48,10 +61,18 @@ class BrainFuck {
 	 * 
 	 * @return string $contents
 	 * 
-	 * @throws \Exception if file doesn't exist
+	 * @throws BrainFuck_Exception if file doesn't exist
 	 */
 	protected function _readFile($file) {
 
+		if(!file_exists($file))
+			throw new BrainFuck_Exception('File does not exist: ' . $file);
+
+		$handle   = fopen($file, 'r');
+		$contents = fread($handle, filesize($file));
+		fclose($handle);
+
+		return $contents;
 	}
 
 	/**
@@ -61,6 +82,10 @@ class BrainFuck {
 	 */
 	protected function _tokenizeInput($input) {
 
+		//Construct our tokenizer
+		$String_Tokenizer = new String_Tokenizer( $input );
+		return $String_Tokenizer->tokenize();
+
 	}
 
 	/**
@@ -69,6 +94,9 @@ class BrainFuck {
 	 * Output will be echo'd directly
 	 */
 	protected function _compileTokens($tokens) {
+
+		$Compiler = new Compiler($tokens);
+		$Compiler->compile();
 
 	}
 
