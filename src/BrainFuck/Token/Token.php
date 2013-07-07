@@ -86,6 +86,9 @@ class Decrement_Pointer extends Token {
 class Increment_Byte_Pointed_To extends Token {
 	static $identifier = array('+');
 
+	public function runToken(&$tape, &$ptr, &$tokens, &$tokenPointer) {
+		++$tape[$ptr];
+	}
 }
 
 /**
