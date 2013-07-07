@@ -7,6 +7,8 @@ use BrainFuck\BrainFuck_Exception;
 
 class Mock_Token extends Token {
 
+	static $identifier = array('X');
+
 	/**
 	 * To be implemented by child classes
 	 * 
