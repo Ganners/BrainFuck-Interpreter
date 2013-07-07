@@ -56,6 +56,20 @@ abstract class Token {
 
 	}
 
+	/**
+	 * Checks if the pointer is in bounds, throws
+	 * exception if true
+	 * 
+	 * @param array $tape
+	 * @param int   $ptr
+	 * 
+	 * @throws BrainFuck_Exception if out of bounds
+	 */
+	public function tapeBoundsCheck(&$tape, &$ptr) {
+		if($ptr < 0 || $ptr > count($tape))
+			throw new BrainFuck_Exception("Pointer is out of bounds");
+	}
+
 }
 
 /**
@@ -65,6 +79,9 @@ class Increment_Pointer extends Token {
 	static $identifier = array('>');
 
 	public function runToken(&$tape, &$ptr, &$tokens, &$tokenPointer) {
+
+		$this->tapeBoundsCheck($tape, $ptr);
+
 		++$ptr;
 	}
 }
@@ -76,6 +93,9 @@ class Decrement_Pointer extends Token {
 	static $identifier = array('<');
 
 	public function runToken(&$tape, &$ptr, &$tokens, &$tokenPointer) {
+
+		$this->tapeBoundsCheck($tape, $ptr);
+
 		--$ptr;
 	}
 }
@@ -87,6 +107,9 @@ class Increment_Byte_Pointed_To extends Token {
 	static $identifier = array('+');
 
 	public function runToken(&$tape, &$ptr, &$tokens, &$tokenPointer) {
+
+		$this->tapeBoundsCheck($tape, $ptr);
+
 		++$tape[$ptr];
 	}
 }
@@ -98,6 +121,9 @@ class Decrement_Byte_Pointed_To extends Token {
 	static $identifier = array('-');
 
 	public function runToken(&$tape, &$ptr, &$tokens, &$tokenPointer) {
+
+		$this->tapeBoundsCheck($tape, $ptr);
+
 		--$tape[$ptr];
 	}
 }
@@ -109,6 +135,8 @@ class Jump_Forward extends Token {
 	static $identifier = array('[');
 
 	public function runToken(&$tape, &$ptr, &$tokens, &$tokenPointer) {
+
+		$this->tapeBoundsCheck($tape, $ptr);
 
 		if( $tape[$ptr] === 0 ) {
 
@@ -138,6 +166,9 @@ class Jump_Backward extends Token {
 	static $identifier = array(']');
 
 	public function runToken(&$tape, &$ptr, &$tokens, &$tokenPointer) {
+
+		$this->tapeBoundsCheck($tape, $ptr);
+
 		if( $tape[$ptr] !== 0 ) {
 
 			$loop = 1;
@@ -166,6 +197,9 @@ class Output_Value_At_Pointer extends Token {
 	static $identifier = array('.');
 
 	public function runToken(&$tape, &$ptr, &$tokens, &$tokenPointer) {
+
+		$this->tapeBoundsCheck($tape, $ptr);
+
 		echo chr($tape[$ptr]);
 	}
 }
@@ -177,6 +211,8 @@ class Accept_Input extends Token {
 	static $identifier = array(',');
 
 	public function runToken(&$tape, &$ptr, &$tokens, &$tokenPointer, $stream = NULL) {
+
+		$this->tapeBoundsCheck($tape, $ptr);
 
 		if(!$stream)
 			$stream = STDIN;
