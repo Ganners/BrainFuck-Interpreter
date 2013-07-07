@@ -176,4 +176,19 @@ class Output_Value_At_Pointer extends Token {
 class Accept_Input extends Token {
 	static $identifier = array(',');
 
+	public function runToken(&$tape, &$ptr, &$tokens, &$tokenPointer, $stream = NULL) {
+
+		if(!$stream)
+			$stream = STDIN;
+
+		while(true) {
+			$line = trim(stream_get_line($stream, 1024, PHP_EOL));
+
+			if($line) {
+				$tape[$ptr] = ord($line);
+				break;
+			}
+		}
+		
+	}
 }
