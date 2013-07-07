@@ -108,6 +108,27 @@ class Decrement_Byte_Pointed_To extends Token {
 class Jump_Forward extends Token {
 	static $identifier = array('[');
 
+	public function runToken(&$tape, &$ptr, &$tokens, &$tokenPointer) {
+
+		if( $tape[$ptr] === 0 ) {
+
+			$loop = 1;
+
+			//We do this loop so that we can deal with nested loops
+			//and exit only when we find our match.
+			while($loop > 0) {
+				++$tokenPointer;
+				if($tokens[$tokenPointer] instanceof Jump_Backward) {
+					--$loop;
+				} else if ($tokens[$tokenPointer] instanceof Jump_Forward) {
+					++$loop;
+				}
+			}
+
+		} else {
+			return 0;
+		}
+	}
 }
 
 /**
